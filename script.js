@@ -42,18 +42,18 @@ const myQuestions = [
         },
         correctAnswer: "c"
     },{
-        {
-            question: "A very useful tool during development and debugging for printing content to the debugger is:",
-            answers:{
-                a: "1.JavaScript",
-                b: "2.terminal/bash",
-                c: "3.for loop",
-                d: "4.console.log",
-            },
-            correctAnswer: "d"
-        }
+            
+        question: "A very useful tool during development and debugging for printing content to the debugger is:",
+        answers:{
+            a: "1.JavaScript",
+            b: "2.terminal/bash",
+            c: "3.for loop",
+            d: "4.console.log",
+        },
+        correctAnswer: "d"
+
     }
-]
+];
 
 function buildQuiz(){}
 
