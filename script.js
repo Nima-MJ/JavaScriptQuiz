@@ -4,8 +4,11 @@ function buildQuiz(){
     const output = [];
 
     output.push(
-        `<div class="slide"> 
-            <button class="start"> click to start </button>
+        `<div class="slide intro-page"> 
+            <h1> Coding Quiz Challange </h1>
+            <p> Try to answer the following code-related questions within the time limit.
+            Keep in mind that incorrect answers will penalize your score/time by ten seconds! </p>
+            <button class="start"> Start Quiz </button>
         </div>`
     )
     //for each question...
@@ -29,12 +32,17 @@ function buildQuiz(){
             output.push(
                 `<div class="slide">
                 <div class="question"> ${currentQuestion.question} </div>
-                <div class="answers"> ${answersArray.join('')} </div>
+                <div class="answers radio-toolbar"> ${answersArray.join('')} </div>
                 </div>`
             );
         }
 
     );
+    output.push(
+        `<div class="slide"> 
+            Quiz is done
+        </div>`
+    )
     quizContainer.innerHTML = output.join('');
 
 }
@@ -85,7 +93,7 @@ const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 const myQuestions = [
     {
-        question: "Commenly used data types DO not include",
+        question: "Commenly used data types DO not include:",
         answers:{
             a: "1.strings",
             b: "2.boolean",
@@ -148,16 +156,14 @@ debugger;
 
 //show the first slide
 showSlide(currentSlide);
-//on submit, show results
 
-submitButton.addEventListener('click', showResults);
+//start quiz once the button is clicked
 start.addEventListener('click', startQuiz);
 function startQuiz(){
     nextSlide();
     for(var i=0; i<numQuestion; i++){
         document.querySelectorAll('input[name="question' + i + '"]').forEach((elem) => {
             elem.addEventListener("change", nextSlide );
-            numm =+ 1;
         });
     }
 }
