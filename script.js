@@ -1,4 +1,5 @@
 
+var qResult;
 function buildQuiz(){
     //varuiable to store html output
     const output = [];
@@ -60,27 +61,44 @@ function showResults(){
         const answerContainer = answerContainers[questionNumber];
         const selector = `input[name=question${questionNumber}]:checked`;
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
+        
         // if answer is correct 
         if(userAnswer === currentQuestion.correctAnswer){
             //add to the number of correct answers
             numCorrect++;
-
             //color the answers green 
             answerContainers[questionNumber].style.color = 'lightgreen';
         }
         //if answer is wrong
-        else{
+        else if (userAnswer !== currentQuestion.correctAnswer){
             //color the answer red
             answerContainers[questionNumber].style.color = 'red';
         }
     });
-    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+
+function previousSlideResult(question){
+    const answerContainers = quizContainer.querySelectorAll('.answers');
+    const answerContainer = answerContainers[question];
+    console.log(answerContainer);
+    const selector = `input[name=question${question}]:checked`;
+    console.log(selector);
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+    console.log(userAnswer);
+
+    if(userAnswer === myQuestions[question].correctAnswer){
+        result.innerHTML = "Correct";
+    }else{
+        result.innerHTML = "Wrong!";
+    }
 }
 function showSlide(n) {
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');
     currentSlide = n;
+    if(currentSlide >= 2){
+        previousSlideResult(currentSlide-2);
+    }
 }
 function nextSlide(){
     showSlide(currentSlide +1) ;
@@ -89,8 +107,8 @@ function nextSlide(){
 
 /*  variables */
 const quizContainer = document.getElementById('quiz');
-const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+const result = document.getElementById('result');
 const myQuestions = [
     {
         question: "Commenly used data types DO not include:",
@@ -152,10 +170,11 @@ const slides = document.querySelectorAll(".slide");
 const start = document.querySelector(".start");
 let currentSlide = 0;
 var numQuestion = myQuestions.length;
-debugger;
 
 //show the first slide
 showSlide(currentSlide);
+
+
 
 //start quiz once the button is clicked
 start.addEventListener('click', startQuiz);
