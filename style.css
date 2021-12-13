@@ -36,10 +36,7 @@ button:hover{
 
 .slide{
     position: fixed;
-    top: 20%;
-    left: 20%;
-    padding: 50px 20px;
-    border: 3px solid black;
+    padding: 10px 10px;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.5s;
@@ -47,11 +44,15 @@ button:hover{
 .active-slide{
     opacity: 1;
     z-index: 99; 
+    width: 50%;
+    height: 50%;
+    border-bottom: 3px solid black ;
 }
 .quiz-container{
     position: relative;
-    height: 200px;
-    margin: 40px;
+    height: 500px;
+    margin: auto;
+    width: 50%;
 }
 .radio-toolbar input[type="radio"]{
     opacity: 0;
@@ -62,7 +63,7 @@ button:hover{
 .radio-toolbar label{
     background-color: rgb(52, 17, 140);
     color: white;
-    padding: 11px 25px;
+    padding: 18px 25px;
     border-radius: 10px;
     width: 100%;
 }
@@ -72,8 +73,6 @@ button:hover{
 }
 .intro-page{
     text-align: center;
-    width: 40%;
-
 }
 .intro-page h1{
     font-size: 35px;
@@ -83,9 +82,7 @@ button:hover{
     font-size: 23px;
 }
 .result{
-    position: relative;
-    display: block;
     font-size: 40px;
-    margin-top: 18%;
-    margin-left: 25%;
+    width: 50%;
+    margin: auto;
 }
