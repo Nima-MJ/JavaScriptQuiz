@@ -31,7 +31,7 @@ function buildQuiz(){
             }
             //... add this question and its answers to the output
             output.push(
-                `<div class="slide">
+                `<div class="slide under">
                 <div class="question"> ${currentQuestion.question} </div>
                 <div class="answers radio-toolbar"> ${answersArray.join('')} </div>
                 </div>`
@@ -40,8 +40,9 @@ function buildQuiz(){
 
     );
     output.push(
-        `<div class="slide"> 
-            Quiz is done
+        `<div class="slide under"> 
+            <label for="fname">Enter Initials<label>
+            <input type="text" name="fname" id="user"> 
         </div>`
     )
     quizContainer.innerHTML = output.join('');
@@ -92,6 +93,7 @@ function previousSlideResult(question){
         result.innerHTML = "Wrong!";
     }
 }
+
 function showSlide(n) {
     slides[currentSlide].classList.remove('active-slide');
     slides[n].classList.add('active-slide');

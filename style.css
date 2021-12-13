@@ -46,6 +46,8 @@ button:hover{
     z-index: 99; 
     width: 50%;
     height: 50%;
+}
+.under{
     border-bottom: 3px solid black ;
 }
 .quiz-container{
@@ -85,4 +87,9 @@ button:hover{
     font-size: 40px;
     width: 50%;
     margin: auto;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 60px;
 }
