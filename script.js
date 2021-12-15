@@ -1,9 +1,6 @@
-
-var qResult;
 function buildQuiz(){
     //varuiable to store html output
     const output = [];
-
     output.push(
         `<div class="slide intro-page"> 
             <h1> Coding Quiz Challange </h1>
@@ -41,57 +38,37 @@ function buildQuiz(){
     );
     output.push(
         `<div class="slide under"> 
+            <h1> All done! </h1>
+            <p> Your final score is <span class="scoreDisp"></span> </p>
             <label for="fname">Enter Initials<label>
             <input type="text" name="fname" id="user"> 
+            
         </div>`
     )
+
     quizContainer.innerHTML = output.join('');
 
 }
 
-function showResults(){
-    // gather answer containers from our quiz
-    const answerContainers = quizContainer.querySelectorAll('.answers');
-    //keep track ofthe correct answers 
-    let numCorrect = 0;
-
-    // for each question...
-    myQuestions.forEach((currentQuestion, questionNumber) => {
-        
-        // find selected answer
-        const answerContainer = answerContainers[questionNumber];
-        const selector = `input[name=question${questionNumber}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-        
-        // if answer is correct 
-        if(userAnswer === currentQuestion.correctAnswer){
-            //add to the number of correct answers
-            numCorrect++;
-            //color the answers green 
-            answerContainers[questionNumber].style.color = 'lightgreen';
-        }
-        //if answer is wrong
-        else if (userAnswer !== currentQuestion.correctAnswer){
-            //color the answer red
-            answerContainers[questionNumber].style.color = 'red';
-        }
-    });
-}
 
 function previousSlideResult(question){
     const answerContainers = quizContainer.querySelectorAll('.answers');
     const answerContainer = answerContainers[question];
-    console.log(answerContainer);
     const selector = `input[name=question${question}]:checked`;
-    console.log(selector);
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-    console.log(userAnswer);
 
     if(userAnswer === myQuestions[question].correctAnswer){
-        result.innerHTML = "Correct";
+        result.innerHTML = "Correct!";
     }else{
-        result.innerHTML = "Wrong!";
+        ifWrong();
     }
+}
+
+function ifWrong(){
+    result.innerHTML = "Wrong!";
+    var subTen = timer;
+    subTen  = subTen - 10;
+    timer = subTen;
 }
 
 function showSlide(n) {
@@ -104,6 +81,28 @@ function showSlide(n) {
 }
 function nextSlide(){
     showSlide(currentSlide +1) ;
+}
+
+function startTimer(duration, display) {
+    timer = duration; 
+    var minutes, seconds;
+    setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10)+ (minutes * 60);
+
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = seconds;
+        if(currentSlide < myQuestions.length +1){
+            if (--timer < 0 ) {
+                timer = duration;
+            }
+        }
+        else{
+            score = timer;
+            scoreDisp.innerHTML = score;
+        }
+    }, 1000);  
 }
 
 
@@ -164,22 +163,27 @@ const myQuestions = [
 
     }
 ];
-
 //display quiz right away
 buildQuiz();
 
+
+const display = document.querySelector('.time');
 const slides = document.querySelectorAll(".slide");
 const start = document.querySelector(".start");
+const scoreDisp = document.querySelector(".scoreDisp");
 let currentSlide = 0;
 var numQuestion = myQuestions.length;
+var timer;
+var score;
+
 
 //show the first slide
 showSlide(currentSlide);
 
-
-
 //start quiz once the button is clicked
 start.addEventListener('click', startQuiz);
+start.addEventListener('click', timerSetup);
+
 function startQuiz(){
     nextSlide();
     for(var i=0; i<numQuestion; i++){
@@ -188,3 +192,7 @@ function startQuiz(){
         });
     }
 }
+function timerSetup () {
+    var fiveMinutes = 60 * 1.25;
+    startTimer(fiveMinutes, display);
+};
