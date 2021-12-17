@@ -8,7 +8,7 @@ function buildQuiz(){
             Keep in mind that incorrect answers will penalize your score/time by ten seconds! </p>
             <button class="start"> Start Quiz </button>
         </div>`
-    )
+    );
     //for each question...
     myQuestions.forEach(
         (currentQuestion, questionNumber) => {
@@ -42,14 +42,22 @@ function buildQuiz(){
             <p> Your final score is <span class="scoreDisp"></span> </p>
             <label for="fname">Enter Initials<label>
             <input type="text" name="fname" id="user"> 
+            <button class="save" > Submit </button>
             
+        </div>`
+    );
+    output.push(
+        `<div class="slide under">
+        <h1> Highest Score <h1>
+        <table>
+            <tr><span class="first"></span></tr>
+        </table> 
         </div>`
     )
 
     quizContainer.innerHTML = output.join('');
 
 }
-
 
 function previousSlideResult(question){
     const answerContainers = quizContainer.querySelectorAll('.answers');
@@ -89,7 +97,6 @@ function startTimer(duration, display) {
     setInterval(function () {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10)+ (minutes * 60);
-
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
             display.textContent = seconds;
@@ -103,6 +110,39 @@ function startTimer(duration, display) {
             scoreDisp.innerHTML = score;
         }
     }, 1000);  
+}
+function saveData(){
+    var highScore = JSON.parse(localStorage.getItem("highScore") || "[]");
+    const username = document.getElementById('user');
+    highScore.push({name: username.value, score: timer});
+    highScore = sort(highScore);
+    highScoreDisp(highScore);
+    localStorage.setItem("highScore", JSON.stringify(highScore));
+}
+function highScoreDisp(array){   
+    dispArr = [];
+    for(var i=0; i<array.length; i++){
+        dispArr.push(
+        `<p>
+        ${i+1}. ${array[i].name} - ${array[i].score}
+        </p>`
+        )
+    }
+    first.innerHTML = dispArr.join('');
+}
+
+function sort(array){
+    function compare( a, b ) {
+        if ( a.score < b.score ){
+          return 1;
+        }
+        if ( a.score > b.score ){
+          return -1;
+        }
+        return 0;
+    }
+    array.sort( compare );
+    return array;
 }
 
 
@@ -171,10 +211,13 @@ const display = document.querySelector('.time');
 const slides = document.querySelectorAll(".slide");
 const start = document.querySelector(".start");
 const scoreDisp = document.querySelector(".scoreDisp");
+const save = document.querySelector(".save")
+const first = document.querySelector(".first")
 let currentSlide = 0;
 var numQuestion = myQuestions.length;
 var timer;
 var score;
+
 
 
 //show the first slide
@@ -183,6 +226,7 @@ showSlide(currentSlide);
 //start quiz once the button is clicked
 start.addEventListener('click', startQuiz);
 start.addEventListener('click', timerSetup);
+save.addEventListener('click', saveData);
 
 function startQuiz(){
     nextSlide();
@@ -191,6 +235,7 @@ function startQuiz(){
             elem.addEventListener("change", nextSlide );
         });
     }
+    if (save.addEventListener('click', nextSlide));
 }
 function timerSetup () {
     var fiveMinutes = 60 * 1.25;
